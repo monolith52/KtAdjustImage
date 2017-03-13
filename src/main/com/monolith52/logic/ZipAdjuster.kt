@@ -15,7 +15,7 @@ class ZipAdjuster (val inputFile: File) {
     var errorHandler: ((inputFile: File, msg: String) -> Unit)? = null
     var successHandler: ((inputFile: File, outputFilesize: Long) -> Unit)? = null
     var progressHandler: ((inputFile: File, progress: Progress) -> Unit)? = null
-    public data class Progress(var length: Int = 0, var current: Int = 0) {
+    data class Progress(var length: Int = 0, var current: Int = 0) {
         override fun toString(): String {
             if (length === 0) return "0%"
             return String.format("%.2f%% (%d/%d)", current.toDouble() * 100.0 / length.toDouble(), current, length)
@@ -26,7 +26,7 @@ class ZipAdjuster (val inputFile: File) {
     private fun scan(input: InputStream): Int {
         var count = 0
         ZipArchiveInputStream(input).use{ zipIn ->
-            while (zipIn?.getNextZipEntry() != null) count++
+            while (zipIn.getNextZipEntry() != null) count++
             return count
         }
     }
@@ -36,15 +36,15 @@ class ZipAdjuster (val inputFile: File) {
     }
 
     fun process(outputFile: File): Boolean {
-        var output: OutputStream? = null
         try {
-            output = FileOutputStream(outputFile)
-            val success = process(output)
+            FileOutputStream(outputFile).use { output ->
+                val success = process(output)
 
-            if (!success && ResourceUtil.getBoolean("remove.incompleteFile", true)) {
-                outputFile.delete()
+                if (!success && ResourceUtil.getBoolean("remove.incompleteFile", true)) {
+                    outputFile.delete()
+                }
+                return success
             }
-            return success
         } catch (e: IOException) {
             errorHandler?.invoke(inputFile, e.toString())
             return false
@@ -68,7 +68,6 @@ class ZipAdjuster (val inputFile: File) {
                     val progress = Progress()
                     progress.length = scan(ByteArrayInputStream(inBuffer.toByteArray()))
 
-                    var entry: ZipArchiveEntry
                     while (true) {
                         val entry = zipIn.nextZipEntry
                         if (entry == null) break
@@ -119,8 +118,8 @@ class ZipAdjuster (val inputFile: File) {
     }
 
     fun getOutputFile(): File {
-        val prefix = ResourceUtil.bundle.getString("savefile.prefix") ?: ""
-        val filename = inputFile.absoluteFile.parent + File.separator + ResourceUtil.getString("savefile.prefix", "") + inputFile.name
+        val prefix = ResourceUtil.getString("savefile.prefix", "")
+        val filename = inputFile.absoluteFile.parent + File.separator + prefix + inputFile.name
         return File(filename)
     }
 }

@@ -15,17 +15,13 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monolith52.view.ApplicationController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
-            <menus>
-                <Menu mnemonicParsing="false" text="ファイル">
-                    <items>
-                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="終了" />
-                    </items>
-                </Menu>
-            </menus>
+            <Menu mnemonicParsing="false" text="ファイル">
+                <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="終了"/>
+            </Menu>
         </MenuBar>
     </top>
     <center>
-        <TableView fx:id="tableView" prefHeight="1.0" BorderPane.alignment="CENTER">
+        <TableView fx:id="tableView" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="columnFile" prefWidth="-1.0" text="ファイル名" />
                 <TableColumn fx:id="columnOriginalSize" maxWidth="80.0" minWidth="80.0" text="サイズ" />
@@ -39,24 +35,20 @@
     </center>
     <bottom>
         <HBox nodeOrientation="RIGHT_TO_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
-            <children>
-                <Button fx:id="convertButton" mnemonicParsing="false" onAction="#onConvertButtonAction" text="変換" />
-                <Pane nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
-                    <children>
-                        <Label fx:id="messageLabel">
-                            <padding>
-                                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-                            </padding>
-                        </Label>
-                    </children>
-                </Pane>
-            </children>
             <opaqueInsets>
-                <Insets />
+                <Insets/>
             </opaqueInsets>
             <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </padding>
+            <Button fx:id="convertButton" mnemonicParsing="false" onAction="#onConvertButtonAction" text="変換"/>
+            <Pane nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
+                <Label fx:id="messageLabel">
+                    <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+                    </padding>
+                </Label>
+            </Pane>
         </HBox>
     </bottom>
 </BorderPane>

@@ -31,6 +31,8 @@ class ApplicationController {
     fun initialize() {
         tableView.setSelectionModel(null)
         tableView.setRowFactory({ tv -> RecordRow() })
+        tableView.prefWidth = 1.0
+        tableView.prefHeight = 1.0
 
         columnFile.setCellValueFactory(PropertyValueFactory<FileTableRecord, File>("file"))
         columnOriginalSize.setCellValueFactory(PropertyValueFactory<FileTableRecord, Long>("originalSize"))
@@ -44,7 +46,7 @@ class ApplicationController {
     }
 
     @FXML
-    fun onConvertButtonAction(event: ActionEvent) {
+    fun onConvertButtonAction(@Suppress("UNUSED_PARAMETER") event: ActionEvent) {
         convertButton.setDisable(true)
         Thread { convert() }.start()
     }
@@ -108,7 +110,8 @@ class ApplicationController {
     internal inner class DroppedHandler : EventHandler<DragEvent> {
         override fun handle(event: DragEvent) {
             val content = event.dragboard.getContent(DataFormat.FILES)
-            val files = if (content is List<*>) content as List<File> else ArrayList<File>()
+            val anyFiles = if (content is List<*>) content else ArrayList<Any?>()
+            val files = anyFiles.filterIsInstance(File::class.java)
             Platform.runLater({
                 addFiles(files)
                 convertButton.setDisable(false)
