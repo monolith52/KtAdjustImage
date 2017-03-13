@@ -36,22 +36,29 @@ class ZipAdjuster (val inputFile: File) {
     }
 
     fun process(outputFile: File): Boolean {
+        var success = true
         try {
             FileOutputStream(outputFile).use { output ->
-                val success = process(output)
-
-                if (!success && ResourceUtil.getBoolean("remove.incompleteFile", true)) {
-                    outputFile.delete()
-                }
-                return success
+                success = process(output)
             }
         } catch (e: IOException) {
             errorHandler?.invoke(inputFile, e.toString())
-            return false
+            success = false
         }
+
+        if (!success && ResourceUtil.getBoolean("remove.incompleteFile", true)) {
+            outputFile.delete()
+        }
+
+        return success
     }
 
     fun process(output: OutputStream): Boolean {
+        if (!inputFile.exists()) {
+            val e = IOException("入力ファイルがみつかりません。")
+            errorHandler?.invoke(inputFile, e.toString())
+            return false
+        }
 
         val inBuffer = ByteArrayOutputStream(inputFile.length().toInt())
         try {

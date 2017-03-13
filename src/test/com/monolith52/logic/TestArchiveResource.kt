@@ -30,7 +30,8 @@ class TestArchiveResource : ExternalResource() {
                 "__AdjustOrigin__test1.zip",
                 "__AdjustOrigin__test2.zip",
                 "__AdjustOrigin__test3.zip",
-                "!!AdjustImage!!out2.zip")
+                "!!AdjustImage!!out2.zip",
+                "!!AdjustImage!!none.zip")
         garbage.forEach { File(it).delete() }
     }
 }

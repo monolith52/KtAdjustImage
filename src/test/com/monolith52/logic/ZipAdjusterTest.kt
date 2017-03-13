@@ -59,6 +59,7 @@ class ZipAdjusterTest {
 
         assertFalse(adjuster2.process())
         assert(errMsg != null)
+        assertFalse(File("!!AdjustImage!!none.zip").exists())
     }
 
     @Test
