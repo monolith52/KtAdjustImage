@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-    <comment>画像の圧縮率 0.0-1.0 小さいほど圧縮率が高い</comment>
-    <entry key="adjust.compressrate">0.5</entry>
-</properties>

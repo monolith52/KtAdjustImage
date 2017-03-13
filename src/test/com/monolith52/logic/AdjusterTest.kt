@@ -17,15 +17,15 @@ class AdjusterTest {
         assertNotEquals(sizeof("test.png"), getAdjustedByteArray("test.png").size)
     }
 
-    fun getAdjustedByteArray(filename: String): ByteArray {
+    fun getAdjustedByteArray(resource: String): ByteArray {
         val output = ByteArrayOutputStream()
-        val input = javaClass.getResource(filename).openStream()
-        adjuster.adjust(filename, input, output)
+        val input = javaClass.getResource(resource).openStream()
+        adjuster.adjust(resource, input, output)
         return output.toByteArray()
     }
 
-    fun sizeof(filename: String): Int {
-        return javaClass.getResource(filename).openConnection().contentLength
+    fun sizeof(resource: String): Int {
+        return javaClass.getResource(resource).openConnection().contentLength
     }
 
     @Test
