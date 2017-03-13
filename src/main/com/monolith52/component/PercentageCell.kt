@@ -40,6 +40,6 @@ class PercentageCell<S> : TableCell<S, Double>() {
     }
 
     fun Double.format(): String {
-        return String.format("%.2f%%", Double@this * 100)
+        return String.format("%.2f%%", this * 100)
     }
 }

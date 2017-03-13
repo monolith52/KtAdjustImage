@@ -12,6 +12,6 @@ class FilesizeCell<S> : TableCell<S, Long>() {
     }
 
     protected fun Long.format(): String {
-        return String.format("%1$,3d KB", Long@this / 1024)
+        return String.format("%1$,3d KB", this / 1024)
     }
 }
