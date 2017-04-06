@@ -34,18 +34,12 @@ class ZipAdjusterTest {
     fun process2() {
         val adjuster = ZipAdjuster(File("test3.zip"))
         var progress: ZipAdjuster.Progress? = null
-        adjuster.progressHandler = { inputFile, p ->
+        adjuster.progressHandler = { _, p ->
             progress = p
         }
         var outputSize: Long? = null
-        adjuster.successHandler = { inputFile, size ->
+        adjuster.successHandler = { _, size ->
             outputSize = size
-        }
-        FileOutputStream(adjuster.getOutputFile()).use { out ->
-            adjuster.process(out)
-            assert(File("!!AdjustImage!!test3.zip").exists())
-            assert(File("!!AdjustImage!!test3.zip").length() < File("test.zip").length())
-            assert(File("__AdjustOrigin__test3.zip").exists())
         }
         assert(progress != null)
         assertEquals(progress?.current, progress?.length)
@@ -53,7 +47,7 @@ class ZipAdjusterTest {
 
         val adjuster2 = ZipAdjuster(File("none.zip"))
         var errMsg: String? = null
-        adjuster2.errorHandler = { inputFile, msg ->
+        adjuster2.errorHandler = { _, msg ->
             errMsg = msg
         }
 
