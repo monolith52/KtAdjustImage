@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.input.DataFormat
 import javafx.scene.input.DragEvent
 import javafx.scene.input.TransferMode
+import javafx.scene.layout.BorderPane
+import javafx.scene.layout.HBox
 import java.io.File
 import java.util.*
 import java.util.concurrent.Executors
@@ -26,23 +28,26 @@ class ApplicationController {
     @FXML lateinit private var columnOriginalSize: TableColumn<FileTableRecord, Long>
     @FXML lateinit private var columnCompressedSize: TableColumn<FileTableRecord, Long>
     @FXML lateinit private var columnProgress: TableColumn<FileTableRecord, Double>
+    @FXML lateinit private var root: BorderPane
+    @FXML lateinit private var statusBar: HBox
 
     @FXML
     fun initialize() {
         tableView.setSelectionModel(null)
-        tableView.setRowFactory({ tv -> RecordRow() })
-        tableView.prefWidth = 1.0
-        tableView.prefHeight = 1.0
+        tableView.setRowFactory({ _ -> RecordRow() })
+        tableView.setPrefSize(0.0, 0.0)
 
         columnFile.setCellValueFactory(PropertyValueFactory<FileTableRecord, File>("file"))
         columnOriginalSize.setCellValueFactory(PropertyValueFactory<FileTableRecord, Long>("originalSize"))
         columnCompressedSize.setCellValueFactory(PropertyValueFactory<FileTableRecord, Long>("compressedSize"))
         columnProgress.setCellValueFactory(PropertyValueFactory<FileTableRecord, Double>("progress"))
 
-        columnFile.setCellFactory({ column -> FileCell() })
-        columnOriginalSize.setCellFactory({ column -> FilesizeCell<FileTableRecord>() })
-        columnCompressedSize.setCellFactory({ column -> FilesizeCell<FileTableRecord>() })
-        columnProgress.setCellFactory({ column -> PercentageCell<FileTableRecord>() })
+        columnFile.setCellFactory({ _ -> FileCell() })
+        columnOriginalSize.setCellFactory({ _ -> FilesizeCell<FileTableRecord>() })
+        columnCompressedSize.setCellFactory({ _ -> FilesizeCell<FileTableRecord>() })
+        columnProgress.setCellFactory({ _ -> PercentageCell<FileTableRecord>() })
+
+        statusBar.maxWidthProperty().bind(root.widthProperty())
     }
 
     @FXML

@@ -1,3 +1,5 @@
 Manifest-Version: 1.0
+Class-Path: kotlin-reflect.jar kotlin-runtime.jar commons-io-2.4.jar c
+ ommons-compress-1.13.jar
 Main-Class: com.monolith52.Main
 
